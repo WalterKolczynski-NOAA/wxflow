@@ -3,7 +3,7 @@
 wxflow
 ======
 
-.. image:: https://img.shields.io/pypi/wxflow
+.. image:: https://img.shields.io/pypi/v/wxflow
     :target: https://pypi.org/project/wxflow/
     :alt: PyPI
 .. image:: https://github.com/NOAA-EMC/wxflow/workflows/pynorms/badge.svg
