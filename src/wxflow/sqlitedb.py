@@ -4,6 +4,14 @@ from typing import Any, List, Optional, Tuple
 __all__ = ["SQLiteDB"]
 
 
+class SQLiteDBError(Exception):
+    """
+    Base class for SQLiteDB exceptions.
+    """
+    OperationalError = sqlite3.OperationalError
+    IntegrityError = sqlite3.IntegrityError
+
+
 class SQLiteDB:
     """
     A class for interacting with an SQLite3 database.
@@ -16,6 +24,8 @@ class SQLiteDB:
         connection (sqlite3.Connection): The connection object for the database.
 
     """
+
+    Error = SQLiteDBError
 
     def __init__(self, db_name: str) -> None:
         self.db_name = db_name
