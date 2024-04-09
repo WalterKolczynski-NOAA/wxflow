@@ -1,9 +1,11 @@
 import contextlib
 import errno
+import grp
 import os
 import shutil
 
-__all__ = ['mkdir', 'mkdir_p', 'rmdir', 'chdir', 'rm_p', 'cp']
+__all__ = ['mkdir', 'mkdir_p', 'rmdir', 'chdir', 'rm_p', 'cp',
+           'get_gid', 'chgrp']
 
 
 def mkdir_p(path):
@@ -85,3 +87,21 @@ def cp(source: str, target: str) -> None:
         raise OSError(f"unable to copy {source} to {target}")
     except Exception as exc:
         raise Exception(exc)
+
+
+# Group ID number for a given group name
+def get_gid(group_name: str):
+    try:
+        group_id = grp.getgrnam(group_name).gr_gid
+    except KeyError:
+        raise KeyError(f"{group_name} is not a valid group name.")
+
+    return group_id
+
+
+# Change the group of a target file or directory
+def chgrp(group_name, target, recursive=False):
+    # TODO add recursive option
+    gid = get_gid(group_name)
+    uid = os.stat(target).st_uid
+    os.chown(target, uid, gid)
