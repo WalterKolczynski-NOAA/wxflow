@@ -111,6 +111,11 @@ class Jinja:
         to_timedelta: convert a string to a timedelta object
         add_to_datetime: add time to a datetime, return new datetime object
 
+        The Expression Statement extension "jinja2.ext.do", which enables
+            {% do ... %} statements.  These are useful for appending to lists.
+            e.g. {{ bar.append(foo) }} would print "None" to the parsed jinja
+            template, but {% do bar.append(foo) %} would not.
+
         Parameters
         ----------
         loader: jinja2.BaseLoader
@@ -124,6 +129,9 @@ class Jinja:
         """
 
         env = jinja2.Environment(loader=loader, undefined=self.undefined)
+
+        env.add_extension("jinja2.ext.do")
+
         env.filters["strftime"] = lambda dt, fmt: strftime(dt, fmt)
         env.filters["to_isotime"] = lambda dt: to_isotime(dt) if not isinstance(dt, SilentUndefined) else dt
         env.filters["to_fv3time"] = lambda dt: to_fv3time(dt) if not isinstance(dt, SilentUndefined) else dt
@@ -133,8 +141,10 @@ class Jinja:
         env.filters["to_f90bool"] = lambda bool: ".true." if bool else ".false."
         env.filters['getenv'] = lambda name, default='UNDEFINED': os.environ.get(name, default)
         env.filters["relpath"] = lambda pathname, start=os.curdir: os.path.relpath(pathname, start)
-        env.filters["add_to_datetime"] = (lambda dt, delta: add_to_datetime(dt, delta)
-                                          if not (isinstance(dt, SilentUndefined) or isinstance(delta, SilentUndefined)) else dt)
+        env.filters["add_to_datetime"] = (
+                lambda dt, delta: add_to_datetime(dt, delta)
+                if not (isinstance(dt, SilentUndefined) or isinstance(delta, SilentUndefined))
+                else dt if isinstance(dt, SilentUndefined) else delta)
         env.filters["to_timedelta"] = lambda delta_str: to_timedelta(delta_str) if not isinstance(delta_str, SilentUndefined) else delta_str
 
         # Add any additional filters
