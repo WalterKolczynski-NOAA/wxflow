@@ -156,21 +156,23 @@ def cast_strdict_as_dtypedict(ctx: Dict[str, str]) -> Dict[str, Any]:
 def cast_as_dtype(string: str) -> Union[str, int, float, bool, Any]:
     """
     Cast a value into known datatype
+
     Parameters
     ----------
     string: str
+
     Returns
     -------
-    value : str or int or float or datetime
+    value : str, int, float, bool or datetime; or List of these
             default: str
     """
     TRUTHS = ['y', 'yes', 't', 'true', '.t.', '.true.']
     BOOLS = ['n', 'no', 'f', 'false', '.f.', '.false.'] + TRUTHS
     BOOLS = [x.upper() for x in BOOLS] + BOOLS + ['Yes', 'No', 'True', 'False']
 
-    def _cast_or_not(type: Any, string: str):
+    def _cast_or_not(to_type: Any, string: str):
         try:
-            return type(string)
+            return to_type(string)
         except ValueError:
             return string
 
@@ -185,6 +187,9 @@ def cast_as_dtype(string: str) -> Union[str, int, float, bool, Any]:
     except Exception as exc:
         if string in BOOLS:  # Likely a boolean, convert to True/False
             return _true_or_not(string)
+        elif string.startswith('(') and string.endswith(')'):
+            # Convert bash array to python array
+            return [ cast_as_dtype(elem) for elem in string[1:-1].split() ]
         elif '.' in string:  # Likely a number and that too a float
             return _cast_or_not(float, string)
         else:  # Still could be a number, may be an integer
