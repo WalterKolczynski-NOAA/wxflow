@@ -34,7 +34,7 @@ export SOME_LIST1="3, 15, -999"
 export SOME_LIST2="0.2,3.5,-9999."
 export SOME_LIST3="20221225, 202212251845"
 export SOME_LIST4="YES, .false., .T."
-export SOME_LIST5="0.2, 15, 20221225, NO"
+export SOME_LIST5="0.2, test_str, 15, 20221225, NO"
 """
 
 file1 = """#!/bin/bash
@@ -70,7 +70,7 @@ file0_dict = {
     'SOME_LIST2': [0.2, 3.5, -9999.],
     'SOME_LIST3': [datetime(2022, 12, 25, 0, 0, 0), datetime(2022, 12, 25, 18, 45, 0)],
     'SOME_LIST4': [True, False, True],
-    'SOME_LIST5': [0.2, 15, datetime(2022, 12, 25, 0, 0, 0), False],
+    'SOME_LIST5': [0.2, 'test_str', 15, datetime(2022, 12, 25, 0, 0, 0), False],
 }
 
 file0_dict_set_envvar = file0_dict.copy()
@@ -122,7 +122,7 @@ list_dtypes = [
     ('0.2,3.5,-9999.', [0.2, 3.5, -9999.]),
     ('20221215,20221215T1830Z', [datetime(2022, 12, 15, 0, 0, 0), datetime(2022, 12, 15, 18, 30, 0)]),
     ('YES, .false., .T.', [True, False, True]),
-    ('0.2, 15, 20221225, NO', [0.2, 15, datetime(2022, 12, 25, 0, 0, 0), False]),
+    ('0.2, test_str, 15, 20221225, NO', [0.2, 'test_str', 15, datetime(2022, 12, 25, 0, 0, 0), False]),
 ]
 
 
