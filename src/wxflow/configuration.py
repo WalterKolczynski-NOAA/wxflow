@@ -156,21 +156,27 @@ def cast_strdict_as_dtypedict(ctx: Dict[str, str]) -> Dict[str, Any]:
 def cast_as_dtype(string: str) -> Union[str, int, float, bool, Any]:
     """
     Cast a value into known datatype
+
     Parameters
     ----------
     string: str
+
     Returns
     -------
-    value : str or int or float or datetime
+    value : str, int, float, bool or datetime; or List of these
             default: str
     """
     TRUTHS = ['y', 'yes', 't', 'true', '.t.', '.true.']
     BOOLS = ['n', 'no', 'f', 'false', '.f.', '.false.'] + TRUTHS
     BOOLS = [x.upper() for x in BOOLS] + BOOLS + ['Yes', 'No', 'True', 'False']
 
-    def _cast_or_not(type: Any, string: str):
+    if ',' in string:
+        # Convert comma-separated list to python list
+        return [cast_as_dtype(elem.strip()) for elem in string.split(',')]
+
+    def _cast_or_not(to_type: Any, string: str):
         try:
-            return type(string)
+            return to_type(string)
         except ValueError:
             return string
 
