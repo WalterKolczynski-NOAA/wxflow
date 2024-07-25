@@ -172,7 +172,7 @@ def cast_as_dtype(string: str) -> Union[str, int, float, bool, Any]:
 
     if ',' in string:
         # Convert comma-separated list to python list
-        return [ cast_as_dtype(elem.strip()) for elem in string.split(',') ]
+        return [cast_as_dtype(elem.strip()) for elem in string.split(',')]
 
     def _cast_or_not(to_type: Any, string: str):
         try:

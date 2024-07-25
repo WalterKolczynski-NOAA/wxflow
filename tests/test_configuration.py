@@ -67,7 +67,7 @@ file0_dict = {
     'SOME_BOOL5': False,
     'SOME_BOOL6': False,
     'SOME_LIST1': [3, 15, -999],
-    'SOME_LIST2': [0.2,3.5,-9999.],
+    'SOME_LIST2': [0.2, 3.5, -9999.],
     'SOME_LIST3': [datetime(2022, 12, 25, 0, 0, 0), datetime(2022, 12, 25, 18, 45, 0)],
     'SOME_LIST4': [True, False, True],
     'SOME_LIST5': [0.2, 15, datetime(2022, 12, 25, 0, 0, 0), False],
@@ -119,7 +119,7 @@ datetime_dtypes = [
 
 list_dtypes = [
     ('3, 15, -999', [3, 15, -999]),
-    ('0.2,3.5,-9999.', [0.2,3.5,-9999.]),
+    ('0.2,3.5,-9999.', [0.2, 3.5, -9999.]),
     ('20221215,20221215T1830Z', [datetime(2022, 12, 15, 0, 0, 0), datetime(2022, 12, 15, 18, 30, 0)]),
     ('YES, .false., .T.', [True, False, True]),
     ('0.2, 15, 20221225, NO', [0.2, 15, datetime(2022, 12, 25, 0, 0, 0), False]),
@@ -150,6 +150,7 @@ def test_cast_as_dtype_bool():
 
 def test_cast_as_dtype_datetimes():
     evaluate(datetime_dtypes)
+
 
 def test_cast_as_dtype_list():
     evaluate(list_dtypes)
