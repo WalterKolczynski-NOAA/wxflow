@@ -30,6 +30,11 @@ export SOME_BOOL3=.T.
 export SOME_BOOL4=NO
 export SOME_BOOL5=.false.
 export SOME_BOOL6=.F.
+export SOME_LIST1="3, 15, -999"
+export SOME_LIST2="0.2,3.5,-9999."
+export SOME_LIST3="20221225, 202212251845"
+export SOME_LIST4="YES, .false., .T."
+export SOME_LIST5="0.2, 15, 20221225, NO"
 """
 
 file1 = """#!/bin/bash
@@ -60,7 +65,12 @@ file0_dict = {
     'SOME_BOOL3': True,
     'SOME_BOOL4': False,
     'SOME_BOOL5': False,
-    'SOME_BOOL6': False
+    'SOME_BOOL6': False,
+    'SOME_LIST1': [3, 15, -999],
+    'SOME_LIST2': [0.2,3.5,-9999.],
+    'SOME_LIST3': [datetime(2022, 12, 25, 0, 0, 0), datetime(2022, 12, 25, 18, 45, 0)],
+    'SOME_LIST4': [True, False, True],
+    'SOME_LIST5': [0.2, 15, datetime(2022, 12, 25, 0, 0, 0), False],
 }
 
 file0_dict_set_envvar = file0_dict.copy()
@@ -107,6 +117,14 @@ datetime_dtypes = [
     ('20221215T1830Z', datetime(2022, 12, 15, 18, 30, 0)),
 ]
 
+list_dtypes = [
+    ('3, 15, -999', [3, 15, -999]),
+    ('0.2,3.5,-9999.', [0.2,3.5,-9999.]),
+    ('20221215,20221215T1830Z', [datetime(2022, 12, 15, 0, 0, 0), datetime(2022, 12, 15, 18, 30, 0)]),
+    ('YES, .false., .T.', [True, False, True]),
+    ('0.2, 15, 20221225, NO', [0.2, 15, datetime(2022, 12, 25, 0, 0, 0), False]),
+]
+
 
 def evaluate(dtypes):
     for pair in dtypes:
@@ -132,6 +150,9 @@ def test_cast_as_dtype_bool():
 
 def test_cast_as_dtype_datetimes():
     evaluate(datetime_dtypes)
+
+def test_cast_as_dtype_list():
+    evaluate(list_dtypes)
 
 
 @pytest.fixture

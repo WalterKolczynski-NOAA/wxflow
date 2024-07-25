@@ -170,6 +170,10 @@ def cast_as_dtype(string: str) -> Union[str, int, float, bool, Any]:
     BOOLS = ['n', 'no', 'f', 'false', '.f.', '.false.'] + TRUTHS
     BOOLS = [x.upper() for x in BOOLS] + BOOLS + ['Yes', 'No', 'True', 'False']
 
+    if ',' in string:
+        # Convert comma-separated list to python list
+        return [ cast_as_dtype(elem.strip()) for elem in string.split(',') ]
+
     def _cast_or_not(to_type: Any, string: str):
         try:
             return to_type(string)
@@ -187,9 +191,6 @@ def cast_as_dtype(string: str) -> Union[str, int, float, bool, Any]:
     except Exception as exc:
         if string in BOOLS:  # Likely a boolean, convert to True/False
             return _true_or_not(string)
-        elif ',' in string:
-            # Convert comma-separated list to python list
-            return [ cast_as_dtype(elem) for elem in string.split(',') ]
         elif '.' in string:  # Likely a number and that too a float
             return _cast_or_not(float, string)
         else:  # Still could be a number, may be an integer
