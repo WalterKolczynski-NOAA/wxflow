@@ -32,7 +32,7 @@ export SOME_BOOL5=.false.
 export SOME_BOOL6=.F.
 export SOME_LIST1="3, 15, -999"
 export SOME_LIST2="0.2,3.5,-9999."
-export SOME_LIST3="20221225, 202212251845"
+export SOME_LIST3="20221225, 202212251845,"
 export SOME_LIST4="YES, .false., .T."
 export SOME_LIST5="0.2, test_str, 15, 20221225, NO"
 """
